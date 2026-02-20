@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EZ Angelo - Streng Geheim</title>
+    <style>
+        body, html { margin: 0; padding: 0; overflow: hidden; font-family: 'Courier New', Courier, monospace; background: #000; color: #0f0; }
+        
+        /* SEITE 1: EINSATZZENTRALE */
+        #ez-screen { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 20px; height: 100vh; }
+        .cam { border: 1px solid #333; background: #111; display: flex; align-items: center; justify-content: center; position: relative; }
+        .cam::before { content: "LIVE - CAM " attr(data-id); position: absolute; top: 5px; left: 5px; font-size: 10px; color: red; }
+        .center-btn { grid-column: 2; grid-row: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        button { padding: 20px 40px; font-size: 20px; background: #d40000; color: white; border: none; cursor: pointer; border-radius: 10px; box-shadow: 0 0 20px red; }
+
+        /* TUNNEL ANIMATION */
+        #tunnel { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, #2ecc71, #000); z-index: 100; animation: zoom 1.5s infinite; }
+        @keyframes zoom { 0% { transform: scale(1); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(5); opacity: 0; } }
+
+        /* SEITE 2: GOLF MINISPIEL */
+        #golf-game { display: none; text-align: center; height: 100vh; background: #27ae60; padding-top: 50px; }
+        #ball { width: 30px; height: 30px; background: white; border-radius: 50%; position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); transition: 1s; }
+        #hole { width: 40px; height: 15px; background: black; border-radius: 50%; position: absolute; top: 150px; left: 50%; transform: translateX(-50%); }
+
+        /* SEITE 3: DER BRIEF */
+        #letter { display: none; padding: 40px; background: #f9f9f9; color: #333; max-width: 600px; margin: 50px auto; border-radius: 10px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <div id="ez-screen">
+        <div class="cam" data-id="01">EZ NORD</div>
+        <div class="cam" data-id="02">PARKPLATZ</div>
+        <div class="cam" data-id="03">FLUR 4</div>
+        <div class="cam" data-id="04">GOLF-RADAR</div>
+        <div class="center-btn">
+            <button onclick="startTunnel()">HIER DRÜCKEN, ANGELO!</button>
+        </div>
+        <div class="cam" data-id="05">EINGANG</div>
+        <div class="cam" data-id="06">MONITOR 2</div>
+        <div class="cam" data-id="07">ARCHIV</div>
+        <div class="cam" data-id="08">STREIFE</div>
+    </div>
+
+    <div id="tunnel"></div>
+
+    <div id="golf-game">
+        <h1 style="color: white;">Loch ein für deine Nachricht!</h1>
+        <div id="hole"></div>
+        <div id="ball"></div>
+        <button id="hit-btn" style="margin-top: 400px; background: white; color: black;" onclick="hitBall()">ABSCHLAG!</button>
+    </div>
+
+    <div id="letter">
+        <h2>Lieber Angelo,</h2>
+        <p>Du bist nicht nur in der Einsatzzentrale der Beste, sondern auch auf dem Grün eine echte Größe.</p>
+        <p>Ich wollte dir einfach mal sagen, dass ich unsere Freundschaft sehr schätze. Danke für die gute Zeit und deinen Einsatz – beruflich wie privat!</p>
+        <p>Dein Kumpel</p>
+    </div>
+
+    <script>
+        function startTunnel() {
+            document.getElementById('ez-screen').style.display = 'none';
+            document.getElementById('tunnel').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('tunnel').style.display = 'none';
+                document.getElementById('golf-game').style.display = 'block';
+            }, 3000);
+        }
+
+        function hitBall() {
+            const ball = document.getElementById('ball');
+            ball.style.bottom = 'calc(100vh - 180px)';
+            setTimeout(() => {
+                ball.style.display = 'none';
+                document.getElementById('golf-game').style.display = 'none';
+                document.getElementById('letter').style.display = 'block';
+                document.body.style.background = '#ddd';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
