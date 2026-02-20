@@ -9,8 +9,7 @@
         :root {
             --neon-blue: #00f2ff;
             --neon-pink: #ff00ff;
-            --police-blue: #002d5a;
-            --terminal-green: #00ff41;
+            --alert-red: #ff0000;
         }
 
         body, html { margin: 0; padding: 0; overflow: hidden; background: #000; font-family: 'Roboto Mono', monospace; color: white; }
@@ -23,7 +22,6 @@
             gap: 10px;
             padding: 15px;
             height: 100vh;
-            background: radial-gradient(circle, #050505 0%, #000 100%);
         }
 
         .monitor {
@@ -31,20 +29,12 @@
             background: #000;
             position: relative;
             overflow: hidden;
-            box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.1);
         }
 
         .monitor img {
             width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(100%) contrast(1.2) brightness(0.7);
-            opacity: 0.8;
-        }
-
-        .monitor::after {
-            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            background-size: 100% 3px, 3px 100%; pointer-events: none;
+            filter: grayscale(100%) brightness(0.6);
+            opacity: 0.7;
         }
 
         .cam-label {
@@ -59,17 +49,15 @@
             background: rgba(0, 242, 255, 0.05);
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+            text-align: center;
         }
 
         .alarm-btn {
-            padding: 20px 40px; font-family: 'Orbitron', sans-serif; font-size: 20px;
+            padding: 20px 40px; font-family: 'Orbitron', sans-serif; font-size: 18px;
             color: white; background: linear-gradient(45deg, #f00, #b00);
             border: none; border-radius: 5px; cursor: pointer;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); transition: 0.3s;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
         }
-
-        .alarm-btn:hover { transform: scale(1.1); box-shadow: 0 0 40px #f00; }
 
         /* --- STAGE 2: TUNNEL --- */
         #tunnel-wrap {
@@ -84,11 +72,11 @@
         }
 
         @keyframes rotateTunnel {
-            0% { transform: translateZ(0) rotate(0deg) scale(1); }
-            100% { transform: translateZ(500px) rotate(360deg) scale(2); }
+            0% { transform: translateZ(0) rotate(0deg); }
+            100% { transform: translateZ(500px) rotate(360deg); }
         }
 
-        /* --- STAGE 3: GOLF --- */
+        /* --- STAGE 3: GOLF (SABOTIERT) --- */
         #golf-world {
             display: none; height: 100vh; background: #001a00; position: relative;
         }
@@ -98,7 +86,7 @@
         .golf-ball {
             width: 30px; height: 30px; background: #fff; border-radius: 50%;
             position: absolute; bottom: 100px; left: 50%; transform: translateX(-50%);
-            box-shadow: 0 0 15px #fff; transition: all 0.6s ease-in;
+            box-shadow: 0 0 15px #fff; transition: all 1s cubic-bezier(0.42, 0, 0.58, 1);
         }
 
         .hole {
@@ -107,6 +95,7 @@
             box-shadow: 0 0 10px var(--neon-blue);
         }
 
+        /* Power Bar */
         .power-bar-container {
             position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
             width: 250px; height: 15px; border: 2px solid var(--neon-blue); border-radius: 10px; overflow: hidden;
@@ -114,46 +103,38 @@
 
         .power-bar {
             height: 100%; width: 0%; background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
-            animation: powerFill 1.5s infinite alternate linear;
+            animation: powerFill 1s infinite alternate linear;
         }
 
         @keyframes powerFill { 0% { width: 0%; } 100% { width: 100%; } }
 
-        /* --- STAGE 4: CYBER NEON BRIEF --- */
+        /* --- STAGE 4: COACHING MELDUNG --- */
+        #coaching-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 2000;
+            align-items: center; justify-content: center; text-align: center;
+        }
+
+        .coaching-box {
+            padding: 40px; border: 2px solid var(--neon-pink);
+            background: #111; box-shadow: 0 0 30px var(--neon-pink);
+            max-width: 500px;
+        }
+
+        /* --- STAGE 5: NEON BRIEF --- */
         #final-letter {
             display: none; height: 100vh; width: 100vw;
-            background: #000 url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-            align-items: center; justify-content: center;
+            background: #000; align-items: center; justify-content: center;
         }
 
         .letter-content {
-            max-width: 500px; padding: 40px;
-            background: rgba(0, 20, 40, 0.8);
-            border: 2px solid var(--neon-blue);
-            box-shadow: 0 0 30px var(--neon-blue), inset 0 0 20px var(--neon-blue);
+            max-width: 500px; padding: 40px; border: 2px solid var(--neon-blue);
+            background: rgba(0, 20, 40, 0.9); box-shadow: 0 0 30px var(--neon-blue);
             border-radius: 0 40px 0 40px;
-            text-align: left; position: relative;
-            animation: flicker 2s infinite;
         }
 
-        @keyframes flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.95; }
-            98% { opacity: 1; }
-        }
-
-        .letter-content h2 {
-            font-family: 'Orbitron'; color: var(--neon-blue);
-            text-transform: uppercase; letter-spacing: 3px; border-bottom: 1px solid var(--neon-blue);
-            padding-bottom: 10px; margin-bottom: 20px;
-        }
-
-        .letter-content p { font-size: 1.1rem; line-height: 1.7; color: #ccfaff; }
-
-        .letter-content::before {
-            content: "DECRYPTED MESSAGE"; position: absolute; top: -15px; right: 20px;
-            background: var(--neon-blue); color: #000; font-size: 10px; padding: 2px 10px; font-weight: bold;
-        }
+        .letter-content h2 { font-family: 'Orbitron'; color: var(--neon-blue); border-bottom: 1px solid var(--neon-blue); padding-bottom: 10px; }
+        .letter-content p { line-height: 1.6; color: #ccfaff; }
 
     </style>
 </head>
@@ -168,34 +149,42 @@
         
         <div class="center-console">
             <h1 style="font-family: 'Orbitron'; color: var(--neon-blue); font-size: 18px;">POLIZEI EINSATZZENTRALE</h1>
-            <button class="alarm-btn" onclick="goToTunnel()">INITIALISIERE GOLF-MODUS</button>
-            <p style="font-size: 9px; margin-top: 10px; color: var(--neon-blue);">IDENTITÄT BESTÄTIGT: ANGELO</p>
+            <button class="alarm-btn" onclick="goToTunnel()">ZUGRIFF GOLF-MODUS</button>
+            <p style="font-size: 9px; margin-top: 10px; color: var(--neon-blue);">TARGET: HOLE-IN-ONE</p>
         </div>
 
         <div class="monitor"><span class="cam-label">CAM 06 // JEDI_ROOT</span><img src="Jedi3.JPG"></div>
         <div class="monitor"><span class="cam-label">CAM 07 // BUFFER_3.1</span><img src="Im3.1.JPG"></div>
-        <div class="monitor"><span class="cam-label">CAM 08 // HQ_FLUR</span><img src="4.JPG"></div>
-        <div class="monitor"><span class="cam-label">CAM 09 // RADAR</span><img src="angelo.JPG"></div>
-        <div class="monitor"><span class="cam-label">CAM 10 // EXTERNAL</span><img src="michi.JPG"></div>
+        <div class="monitor"><span class="cam-label">CAM 08 // HQ_WEST</span><img src="4.JPG"></div>
+        <div class="monitor"><span class="cam-label">CAM 09 // GOLF_SURV</span><img src="Im3.JPG"></div>
+        <div class="monitor"><span class="cam-label">CAM 10 // SKY_NET</span><img src="michi.JPG"></div>
     </div>
 
     <div id="tunnel-wrap"><div class="tunnel-effect"></div></div>
 
     <div id="golf-world">
-        <h1 style="font-family: 'Orbitron'; color: var(--neon-blue); text-align: center; padding-top: 30px;">TARGET ACQUIRED</h1>
+        <h1 style="font-family: 'Orbitron'; color: var(--neon-blue); text-align: center; padding-top: 30px;">PRÄZISIONS-TEST</h1>
         <div class="hole"></div>
         <div class="green"></div>
         <div id="ball" class="golf-ball"></div>
         <div class="power-bar-container"><div id="powerBar" class="power-bar"></div></div>
-        <button class="alarm-btn" style="position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);" onclick="hitBall()">FEUER!</button>
+        <button class="alarm-btn" style="position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);" onclick="hitBall()">ABSCHLAG</button>
+    </div>
+
+    <div id="coaching-overlay">
+        <div class="coaching-box">
+            <h2 style="color: var(--neon-pink); font-family: 'Orbitron';">SYSTEM-ANALYSE: FEHLSCHLAG</h2>
+            <p>Oje Angelo, das war wohl nichts! Da hast du noch viel zu üben, mein Freund.</p>
+            <p>Aber keine Sorge: Ich unterstütze dich natürlich dabei und stehe dir bei Fragen jederzeit zur Seite!</p>
+            <button class="alarm-btn" style="background: var(--neon-blue); margin-top: 20px;" onclick="showLetter()">WEITER ZUM BRIEF</button>
+        </div>
     </div>
 
     <div id="final-letter">
         <div class="letter-content">
             <h2>Lieber Angelo,</h2>
-            <p>Einsatz abgeschlossen. In der Zentrale bist du der Fels in der Brandung, auf dem Grün der Meister des Putts.</p>
-            <p>Diese kleine Spielerei ist für dich, um dir zu zeigen, wie sehr ich unsere Freundschaft und deinen täglichen Einsatz schätze.</p>
-            <p>Lass uns bald wieder eine echte Runde drehen!</p>
+            <p>Egal ob der Ball ins Loch geht oder nicht – in der Einsatzzentrale bist du für uns unersetzlich.</p>
+            <p>Diese kleine Seite soll dir zeigen, wie sehr ich unsere Freundschaft und deinen Einsatz schätze. Auf viele weitere gemeinsame Stunden (und vielleicht ein paar Trainigsstunden auf dem Grün)!</p>
             <br>
             <p style="color: var(--neon-pink); font-weight: bold;">Dein Kollege & Freund</p>
         </div>
@@ -214,29 +203,19 @@
         function hitBall() {
             const pb = document.getElementById('powerBar');
             const ball = document.getElementById('ball');
-            const width = pb.offsetWidth / pb.parentElement.offsetWidth * 100;
-            
             pb.style.animation = 'none';
-            pb.style.width = width + '%';
 
-            // Erfolg bei ca. 45-65% Power
-            if (width > 45 && width < 65) {
-                ball.style.transform = 'translateX(-50%) translateY(-380px) scale(0.3)';
-                setTimeout(() => {
-                    ball.style.opacity = '0';
-                    setTimeout(showLetter, 500);
-                }, 600);
-            } else {
-                ball.style.transform = 'translateX(-50%) translateY(-200px)';
-                setTimeout(() => {
-                    alert("Knapp daneben! Die Zentrale erwartet Präzision, Angelo. Nochmal!");
-                    ball.style.transform = 'translateX(-50%)';
-                    pb.style.animation = 'powerFill 1.5s infinite alternate linear';
-                }, 800);
-            }
+            // Der Ball fliegt absichtlich KURZ vor das Loch oder DARAN VORBEI
+            // Wir nutzen translateX(-60%), um ihn links vorbeizuschieben
+            ball.style.transform = 'translateX(-80%) translateY(-350px) scale(0.4)';
+            
+            setTimeout(() => {
+                document.getElementById('coaching-overlay').style.display = 'flex';
+            }, 1200);
         }
 
         function showLetter() {
+            document.getElementById('coaching-overlay').style.display = 'none';
             document.getElementById('golf-world').style.display = 'none';
             document.getElementById('final-letter').style.display = 'flex';
         }
