@@ -32,6 +32,142 @@
             position: relative;
             overflow: hidden;
             box-shadow: inset 0 0 20px rgba(0, 150, 255, 0.1);
+            display: flex; /* Für Bildzentrierung */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .monitor img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Bilder füllen den Container */
+            filter: grayscale(80%) brightness(0.8); /* Alter Look */
+        }
+
+        /* Scanline Effekt */
+        .monitor::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .cam-label {
+            position: absolute;
+            top: 10px; left: 10px;
+            font-size: 12px;
+            color: var(--terminal-green);
+            text-shadow: 0 0 5px var(--terminal-green);
+            z-index: 2;
+        }
+
+        .center-console {
+            grid-column: 2 / span 2;
+            grid-row: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--police-blue);
+            background: rgba(0, 45, 90, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .alarm-btn {
+            padding: 25px 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: white;
+            background: linear-gradient(45deg, #8b0000, #ff0000);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .alarm-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px var(--alert-red); }
+
+        /* --- STAGE 2: 3D TUNNEL --- */
+        #tunnel-wrap {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            perspective: 1000px;
+            background: #000;
+            z-index: 1000;
+        }
+
+        .tunnel-effect {
+            width: 100%; height: 100%;
+            background: repeating-conic-gradient(from 0deg, #2ecc71 0deg 30deg, #27ae60 30deg 60deg);
+            animation: rotateTunnel 1.5s infinite linear; /* Etwas langsamer für besseren Effekt */
+            transform-style: preserve-3d;
+        }
+
+        @keyframes rotateTunnel {
+            0% { transform: translateZ(0) rotate(0deg); }
+            100% { transform: translateZ(500px) rotate(360deg); } /* Weiterer Zoom */
+        }
+
+        /* --- STAGE 3: GOLF COURSE --- */
+        #golf-world {
+            display: none;
+            height: 100vh;
+            background: linear-gradient(to bottom, #87CEEB 0%, #2ecc71 100%);
+            position: relative;
+            text-align: center;
+        }
+
+        .green {
+            position: absolute; bottom: 0; width: 100%; height: 40vh;
+            background: #27ae60;
+            border-top: 10px solid #2ecc71;
+            box-shadow: 0 -20px 50px rgba(0,0,0,0.2);
+        }
+
+        .golf-ball {
+            width: 35px; height: 35px; background: radial-gradient(circle at 30% 30%, #fff, #ccc);
+            border-radius: 50%; position: absolute; bottom: 1<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POLIZEI-HQ | ZUGRIFF ANGELO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --police-blue: #002d5a;
+            --alert-red: #ff0000;
+            --terminal-green: #00ff41;
+            --gold: #d4af37;
+        }
+
+        body, html { margin: 0; padding: 0; overflow: hidden; background: #050505; font-family: 'Roboto Mono', monospace; color: white; }
+
+        /* --- STAGE 1: HIGH-TECH EINSATZZENTRALE --- */
+        #ez-screen {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 15px;
+            padding: 20px;
+            height: 100vh;
+            background: radial-gradient(circle, #0a0a0a 0%, #000 100%);
+        }
+
+        .monitor {
+            border: 2px solid #222;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0, 150, 255, 0.1);
         }
 
         /* Scanline Effekt */
